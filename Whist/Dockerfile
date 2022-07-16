@@ -1,17 +1,15 @@
-FROM ubuntu:16.04
+FROM python:3.8-slim-buster
 
-RUN apt-get update -y && \
-    apt-get install -y python-pip python-dev
+WORKDIR /python-docker
 
-# We copy just the requirements.txt first to leverage Docker cache
-COPY ./requirements.txt /app/requirements.txt
+COPY requirements.txt requirements.txt
 
-WORKDIR /app
+RUN pip3 install -r requirements.txt
 
-RUN pip install -r requirements.txt
+ENV FLASK_IP=0.0.0.0
+ENV FLASK_PORT=5000
+ENV FLASK_APP=flaskPython.py
 
-COPY . /app
+COPY . .
 
-ENTRYPOINT [ "python" ]
-
-CMD [ "app.py" ]
+CMD [ "python3", "-m" , "flask", "run", "--host=0.0.0.0"]
