@@ -45,13 +45,13 @@ jobs:
       id: build-image
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-        ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY }}
-        IMAGE_TAG: 1.0
+        ECR_REPOSITORY: "dorwhist"
+        TAG: "latest"
       run: |
         echo "Pushing image to ECR..."
         ls -la
         pwd
         cd ./Whist/
-        docker build --tag latest --tag "my-image-${{ steps.extract_branch.outputs.branch }}-${{ steps.vars.outputs.sha_short }}" .
-        docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
-        echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:latest"
+        docker build --tag $TAG --tag "my-image-${{ steps.extract_branch.outputs.branch }}-${{ steps.vars.outputs.sha_short }}" .
+        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$TAG
+        echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$TAG"
