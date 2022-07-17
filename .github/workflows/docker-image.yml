@@ -23,7 +23,7 @@ jobs:
         ls -la
         pwd
         cd ./Whist/
-        docker build --tag my-image:v1 .
+        docker build --tag my-image:v1 --tag "my-image:v1-${{ steps.extract_branch.outputs.branch }}-${{ steps.vars.outputs.sha_short }}" .
     
     - name: Extract branch name
       shell: bash
@@ -45,4 +45,3 @@ jobs:
         region: us-east-1
         local-image: my-image:v1
         image: my-image:v1
-        tag: "my-image:v1-${{ steps.extract_branch.outputs.branch }}-${{ steps.vars.outputs.sha_short }}, my-image:latest"
