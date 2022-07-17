@@ -23,7 +23,6 @@ jobs:
         ls -la
         pwd
         cd ./Whist/
-        pip install --upgrade pip
         docker build --tag my-image:v1 .
     
     - name: Extract branch name
