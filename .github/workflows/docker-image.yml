@@ -19,9 +19,6 @@ jobs:
       
     - name: build image
       run: |
-        ls
-        pwd
-        cd /Whist
         docker build --tag my-image:v1 .
     
     - name: Extract branch name
