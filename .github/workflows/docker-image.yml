@@ -20,6 +20,7 @@ jobs:
       
     - name: build image
       run: |
+        ls -la
         pwd
         docker build --tag my-image:v1 .
     
