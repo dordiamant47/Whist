@@ -1,0 +1,38 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "main" ] # Runs after commit
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps: # Step 1 : Get branch name , Step 2 : Declare SHA, Step 3 : Build, tag and push to ecr
+    - run: docker build --tag my-image:v1 .
+    
+    - name: Extract branch name
+      shell: bash
+      run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+      id: extract_branch
+      
+    - name: Declare sha
+      id: vars
+      shell: bash
+      run: |
+        echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
+    
+    - name: Push to ECR
+      id: ecr
+      uses: jwalton/gh-ecr-push@v1
+      with:
+        access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        region: us-east-1
+        local-image: my-image:v1
+        image: my-image:v1
+        labels: "${{ steps.ecr.image }}-${{ steps.extract_branch.outputs.branch }}-${{ steps.vars.outputs.sha_short }}, my-image:latest"
