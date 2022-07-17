@@ -15,7 +15,7 @@ jobs:
     steps: # Step 1 : Get branch name , Step 2 : Declare SHA, Step 3 : Build, tag and push to ecr
         
     - run: |
-        cd /d/Hitechs/Interview/Whist
+        cd /d/Hitechs/Interview/Whist/
         docker build --tag my-image:v1 .
     
     - name: Extract branch name
