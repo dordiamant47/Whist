@@ -37,6 +37,8 @@ jobs:
         echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
     
     - name: Push to ECR
+      env:
+        ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY }}
       id: ecr
       uses: jwalton/gh-ecr-push@v1
       with:
