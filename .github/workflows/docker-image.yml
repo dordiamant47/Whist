@@ -55,5 +55,6 @@ jobs:
         IMAGE_TAG: 1.0
       run: |
         echo "Pushing image to ECR..."
-        docker push dorwhist
+        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
         echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
